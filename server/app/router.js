@@ -8,5 +8,5 @@
 //   router.get('/', controller.home.index);
 // };
 module.exports = app => {
-  require('./router/admin')(app);
+  require('./router/api')(app);
 };
