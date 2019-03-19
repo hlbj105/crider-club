@@ -9,7 +9,7 @@ class SignController extends Controller {
     ctx.body = 'this is login';
   }
   async signup() {
-    const { ctx } = this;
+    const { ctx, service } = this;
     const name = validator.trim(ctx.request.body.name || '');
     const email = validator.trim(ctx.request.body.email || '');
     const pass = validator.trim(ctx.request.body.pass || '');
@@ -28,15 +28,42 @@ class SignController extends Controller {
       msg = '邮箱不合法。';
     } else if (pass !== repass) {
       msg = '两次密码输入不一致。';
+    } else if (pass.length < 6) {
+      msg = '密码不少于6个字符';
     }
     if (msg) {
       ctx.status = 422;
       ctx.body = {
-        msg, name, email
+            code: 0,
+            msg,
+            data:{
+                name, email
+            }
         };
       return;
     }
-    ctx.body = '200'
+
+    // 查询是否有相同用户名或者邮箱
+    const users = await service.user.getUsersByQuery({ $or: [
+      { name },
+      { email },
+    ] }, {});
+
+    if (users.length > 0) {
+      ctx.status = 422;
+      ctx.body = {
+          code: 0,
+          msg: '用户名或邮箱已被使用',
+          data: {
+            name, email
+          }
+      }
+      return;
+    }
+
+    const passMd5 = await service.md5(pass);
+
+    ctx.body = passMd5
   }
 }
 
