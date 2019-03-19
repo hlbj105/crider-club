@@ -27,13 +27,18 @@ module.exports = appInfo => {
     secret: "xxxxxxxxxxxxx"
   };
   config.security = {
-    csrf: false
+    csrf: false,
     // {
     //   useSession: true, // 默认为 false，当设置为 true 时，将会把 csrf token 保存到 Session 中
     //   cookieName: 'csrfToken', // Cookie 中的字段名，默认为 csrfToken
     //   sessionName: 'csrfToken', // Session 中的字段名，默认为 csrfToken
     // },
+    domainWhiteList: [ 'http://runapi.showdoc.cc/' ],
   }
+  config.cors = {
+    origin:'*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+  };
   return {
     ...config,
     ...userConfig,

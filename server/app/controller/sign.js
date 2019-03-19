@@ -61,7 +61,8 @@ class SignController extends Controller {
       return;
     }
 
-    const passMd5 = await service.md5(pass);
+    const passMd5 = ctx.helper.md5(pass);
+
 
     ctx.body = passMd5
   }

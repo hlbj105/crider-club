@@ -1,3 +1,6 @@
+const utils = require('utility');
+
+
 // // 获取 Token
 // exports.getAccessToken = ctx => {
 //   let bearerToken = ctx.request.header.authorization;
@@ -37,3 +40,7 @@
 //   };
 //   ctx.status = code;
 // };
+
+exports.md5 = (pass) => {
+    return utils.md5(pass, 'base64');
+}
