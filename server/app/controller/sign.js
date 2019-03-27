@@ -2,6 +2,7 @@
 
 const Controller = require('egg').Controller;
 const validator = require('validator');
+const utils = require('utility');
 
 class SignController extends Controller {
   async index() {
@@ -9,7 +10,7 @@ class SignController extends Controller {
     ctx.body = 'this is login';
   }
   async signup() {
-    const { ctx, service } = this;
+    const { ctx, service, config } = this;
     const name = validator.trim(ctx.request.body.name || '');
     const email = validator.trim(ctx.request.body.email || '');
     const pass = validator.trim(ctx.request.body.pass || '');
@@ -34,30 +35,32 @@ class SignController extends Controller {
     if (msg) {
       ctx.status = 422;
       ctx.body = {
-            code: 0,
-            msg,
-            data:{
-                name, email
-            }
-        };
+        code: 0,
+        msg,
+        data: {
+          name, email,
+        },
+      };
       return;
     }
 
     // 查询是否有相同用户名或者邮箱
-    const users = await service.user.getUsersByQuery({ $or: [
-      { name },
-      { email },
-    ] }, {});
+    const users = await service.user.getUsersByQuery({
+      $or: [
+        { name },
+        { email },
+      ],
+    }, {});
 
     if (users.length > 0) {
       ctx.status = 422;
       ctx.body = {
-          code: 0,
-          msg: '用户名或邮箱已被使用',
-          data: {
-            name, email
-          }
-      }
+        code: 0,
+        msg: '用户名或邮箱已被使用',
+        data: {
+          name, email,
+        },
+      };
       return;
     }
 
@@ -65,9 +68,9 @@ class SignController extends Controller {
 
     const avatarUrl = service.user.makeGravatar(email);
     await service.user.newAndSave(name, passMd5, email, avatarUrl, false);
-// 发送激活邮件
-await service.mail.sendActiveMail(email, utils.md5(email + passMd5 + config.session_secret), name);
-    ctx.body = passMd5
+    // 发送激活邮件
+    await service.mail.sendActiveMail(email, utils.md5(email + passMd5 + config.session_secret), name);
+    ctx.body = passMd5;
   }
 }
 
