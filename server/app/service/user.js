@@ -1,4 +1,5 @@
 const Service = require('egg').Service;
+const utils = require('utility');
 
 class UserService extends Service {
  
@@ -16,6 +17,18 @@ class UserService extends Service {
     return this.ctx.model.User.find(query, '', opt).exec();
   }
 
+  // 获取gravatar头像
+  makeGravatar(email) {
+    return (
+      'https://cn.gravatar.com/avatar/' +
+      utils.md5(email.toLowerCase()) +
+      '?size=48'
+    );
+  }
+
+  getGravatar(user) {
+    return user.avatar || this.makeGravatar(user.email);
+  }
  
 }
 

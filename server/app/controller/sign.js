@@ -63,7 +63,10 @@ class SignController extends Controller {
 
     const passMd5 = ctx.helper.md5(pass);
 
-
+    const avatarUrl = service.user.makeGravatar(email);
+    await service.user.newAndSave(name, passMd5, email, avatarUrl, false);
+// 发送激活邮件
+await service.mail.sendActiveMail(email, utils.md5(email + passMd5 + config.session_secret), name);
     ctx.body = passMd5
   }
 }
