@@ -1,6 +1,6 @@
 # crider-club
 
-> crider-club
+> My wonderful Nuxt.js project
 
 ## Build Setup
 
