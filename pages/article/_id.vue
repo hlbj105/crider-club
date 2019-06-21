@@ -8,6 +8,8 @@
         <li>284 次浏览</li>
       </ul>
       <el-divider></el-divider>
+
+      /* eslint-disable */
       <article v-html="content"></article>
     </section>
     <section class="container reply">
@@ -41,11 +43,11 @@
 </template>
 
 <script>
+/* eslint-disable */
 import Editor from '~/components/Editor'
 export default {
   components: { Editor },
   validate({ params }) {
-    // eslint-disable-next-line no-console
     console.log(params)
     // Must be a number
     return params.id
