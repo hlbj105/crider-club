@@ -12,6 +12,9 @@
       <el-menu-item index="/">首页</el-menu-item>
       <el-menu-item index="/share">分享</el-menu-item>
       <el-menu-item index="/ask">问答</el-menu-item>
+
+      <el-menu-item class="right" index="/login">登录</el-menu-item>
+      <el-menu-item class="right" index="/register">注册</el-menu-item>
       <el-submenu class="right" index="#">
         <template slot="title">
           <img
