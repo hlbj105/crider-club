@@ -139,11 +139,16 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // alert('submit!')
           signup(this.ruleForm)
             .then(res => {
-              // eslint-disable-next-line no-console
-              console.log(res.data)
+              this.$notify({
+                title: '成功',
+                message: '注册成功',
+                type: 'success'
+              })
+              setTimeout(() => {
+                this.$router.push('/login')
+              })
             })
             .catch(() => {
               this.getCode()

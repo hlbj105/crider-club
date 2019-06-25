@@ -5,8 +5,8 @@ import { baseUrl } from './config'
 
 const service = axios.create({
   baseURL: baseUrl.api,
-  timeout: 50000 // request timeout
-  // withCredentials: true // 允许携带cookie
+  timeout: 50000, // request timeout
+  withCredentials: true // 允许携带cookie
 })
 
 service.interceptors.request.use(
